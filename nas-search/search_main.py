@@ -616,6 +616,7 @@ def export(est, export_dir, post_quantize=True):
 
   subfolder = sorted(tf.gfile.ListDirectory(export_dir), reverse=True)[0]
   tf.logging.info('Starting to export TFLite.')
+  # NOTE:　QuantizatinoはSearchフェーズではいらんやろ。
   converter = tf.lite.TFLiteConverter.from_saved_model(
       os.path.join(export_dir, subfolder),
       input_arrays=['truediv'],
