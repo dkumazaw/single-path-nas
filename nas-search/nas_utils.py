@@ -58,10 +58,9 @@ def build_dropout_rate(global_step, warmup_steps=2502):
                            lambda: final_dropout_rate)
     return dropout_rate
 
-# Runtime lambdaをWarmupする
-
 
 def build_runtime_lambda(global_step, warmup_steps=2502, final_lambda=1.0):
+    # Runtime lambdaをWarmupする
     tf.logging.info('Runtime lambda starts after steps: %d' % warmup_steps)
     warmup_lambda_ = tf.cast(0.0, tf.float32)
     final_lambda_ = tf.cast(final_lambda, tf.float32)
