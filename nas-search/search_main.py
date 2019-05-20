@@ -523,7 +523,7 @@ def nas_model_fn(features, labels, mode, params):
   
   with tf.Session() as sess:
     tf.contrib.cloud.configure_gcs(sess,
-                                   os.getenv['GOOGLE_APPLICATION_CREDENTIALS'])
+                                   os.getenv('GOOGLE_APPLICATION_CREDENTIALS'))
 
   return tf.contrib.tpu.TPUEstimatorSpec(
       mode=mode,
