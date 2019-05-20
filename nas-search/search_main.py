@@ -299,10 +299,13 @@ def nas_model_fn(features, labels, mode, params):
 
 
   global_step = tf.train.get_global_step()
-  warmup_steps = 6255
+  warmup_steps = 6255  # このStep間はネットワークの重みだけがオプティマイズされていく。
+                       # よってコレ以降からのみランタイムに対するOptimizationが始まってゆく。
+
   dropout_rate = nas_utils.build_dropout_rate(global_step, warmup_steps)
 
   # ここでスーパーネットが作られている
+  # logitsがネットワークの出力、runtime_valがランタイムのモデルになっている。
   logits, runtime_val, indicators = supernet_macro.build_supernet(
       features,
       model_name=FLAGS.model_name,

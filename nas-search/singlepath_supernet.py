@@ -418,8 +418,11 @@ class SinglePathSuperNet(tf.keras.Model):
         self.endpoints = {}
         self.indicators = {}
 
+        #####################################################################################
         # rest of runtime (i.e., stem, head, logits, block0, block21)
+        # このハードコードもなんとかしてやらんといかん
         total_runtime = 19.5999
+        #####################################################################################
 
         # Calls Stem layers
         with tf.variable_scope('mnas_stem'):
