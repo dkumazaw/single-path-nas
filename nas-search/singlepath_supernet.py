@@ -292,6 +292,7 @@ class SinglePathSuperNet(tf.keras.Model):
        More details: Fig.2 -- Single-Path NAS: https://arxiv.org/abs/(TBD)
        Based on MNasNet search space: https://arxiv.org/abs/1807.11626
     """
+    # スーパーネットの構築をここで行う
 
     def __init__(self, blocks_args=None, global_params=None, dropout_rate=None):
         """Initializes an `SuperNet` instance.
@@ -315,9 +316,13 @@ class SinglePathSuperNet(tf.keras.Model):
 
         tf.logging.info('Runtime model parsed')
         assert self._search_space == 'mnasnet'  # currently supported one
+        ##########################################################################################
+        # ランタイムのモデルはここでハードコードされている！！！！！
+        # IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!
         lutmodel_filename = "./pixel1_runtime_model.json"
         with open(lutmodel_filename, 'r') as f:
             self._runtime_lut = json.load(f)
+        ##########################################################################################
 
         self._build()
 
