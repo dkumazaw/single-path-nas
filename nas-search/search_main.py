@@ -302,6 +302,7 @@ def nas_model_fn(features, labels, mode, params):
   warmup_steps = 6255
   dropout_rate = nas_utils.build_dropout_rate(global_step, warmup_steps)
 
+  # ここでスーパーネットが作られている
   logits, runtime_val, indicators = supernet_macro.build_supernet(
       features,
       model_name=FLAGS.model_name,
@@ -333,6 +334,7 @@ def nas_model_fn(features, labels, mode, params):
       label_smoothing=FLAGS.label_smoothing)
 
 
+  # ランタイムのロスはここで指定する
   runtime_lambda = nas_utils.build_runtime_lambda(global_step, 
                         warmup_steps, FLAGS.runtime_lambda_val)
   runtime_loss = runtime_lambda * 1e3 * tf.log(runtime_val)  # 1e3 to sec
@@ -347,7 +349,7 @@ def nas_model_fn(features, labels, mode, params):
   # Add weight decay to the loss for non-batch-normalization variables.
   loss = cross_entropy + FLAGS.weight_decay * tf.add_n(
       [tf.nn.l2_loss(v) for v in tf.trainable_variables()
-       if 'batch_normalization' not in v.name]) + runtime_loss 
+       if 'batch_normalization' not in v.name]) + runtime_loss  # ランタイムロスをここで追加している
 
   if has_moving_average_decay:
     ema = tf.train.ExponentialMovingAverage(
@@ -384,7 +386,7 @@ def nas_model_fn(features, labels, mode, params):
     # the train operation.
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     with tf.control_dependencies(update_ops):
-      train_op = optimizer.minimize(loss, global_step)
+      train_op = optimizer.minimize(loss, global_step) # Optimizationステップ
 
     if has_moving_average_decay:
       with tf.control_dependencies([train_op]):
