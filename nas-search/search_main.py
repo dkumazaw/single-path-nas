@@ -520,6 +520,10 @@ def nas_model_fn(features, labels, mode, params):
   def _scaffold_fn():
     saver = tf.train.Saver(restore_vars_dict)
     return tf.train.Scaffold(saver=saver)
+  
+  with tf.Session() as sess:
+    tf.contrib.cloud.configure_gcs(sess,
+                                   os.getenv['GOOGLE_APPLICATION_CREDENTIALS'])
 
   return tf.contrib.tpu.TPUEstimatorSpec(
       mode=mode,
