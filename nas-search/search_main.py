@@ -12,6 +12,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import json
 import os
 import time
 from absl import app
@@ -522,8 +523,11 @@ def nas_model_fn(features, labels, mode, params):
     return tf.train.Scaffold(saver=saver)
   
   with tf.Session() as sess:
-    tf.contrib.cloud.configure_gcs(sess,
-                                   os.getenv('GOOGLE_APPLICATION_CREDENTIALS'))
+    json_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+    if json_path:
+      with open(json_path, 'r') as f:
+        auth_info = json.load(f)
+      tf.contrib.cloud.configure_gcs(sess, credentials=auth_info)
 
   return tf.contrib.tpu.TPUEstimatorSpec(
       mode=mode,
