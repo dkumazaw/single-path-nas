@@ -122,6 +122,7 @@ def single_path_search(depth_multiplier=None):
     # メモ：２０ブロックをデフォルトで積むようになってるから、これを可変にしないと
     # さらに軽量なモデルはできない気がする。
 
+    #######################################################################
     blocks_args = [
         'r1_k3_s11_e1_i32_o16_noskip',
         'r4_k5_s22_e6_i16_o24',
@@ -131,6 +132,7 @@ def single_path_search(depth_multiplier=None):
         'r4_k5_s22_e6_i96_o192',
         'r1_k3_s11_e6_i192_o320_noskip'
     ]
+    ############################################################################
 
     global_params = singlepath_supernet.GlobalParams(
         batch_norm_momentum=0.99,
