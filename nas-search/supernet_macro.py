@@ -119,6 +119,9 @@ def single_path_search(depth_multiplier=None):
     # 5x5 and expansion ratios to 6. Filter sizes are set to MNasNet
     # defaults
 
+    # メモ：２０ブロックをデフォルトで積むようになってるから、これを可変にしないと
+    # さらに軽量なモデルはできない気がする。
+
     blocks_args = [
         'r1_k3_s11_e1_i32_o16_noskip',
         'r4_k5_s22_e6_i16_o24',
