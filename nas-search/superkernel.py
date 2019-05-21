@@ -120,7 +120,8 @@ class DepthwiseConv2DMasked(tf.keras.layers.DepthwiseConv2D):
 
             num_channels = int(kernel_shape[2])
             c50 = int(round(1.0*num_channels/2.0))  # 50 %
-            c100 = int(round(2.0*num_channels/2.0))  # 100 %
+            # 100 % これわざわざRoundしてIntする必要なくね？
+            c100 = int(round(2.0*num_channels/2.0))
 
             mask_50c = np.zeros(kernel_shape)
             mask_50c[:, :, 0:c50, :] = 1.0  # from 0% to 50% channels
@@ -144,7 +145,7 @@ class DepthwiseConv2DMasked(tf.keras.layers.DepthwiseConv2D):
                 self.d5x5 = Indicator(x5x5)
 
             depthwise_kernel_masked_outside = \
-                kernel_3x3 + kernel_5x5 * self.d5x5
+                kernel_3x3 + kernel_5x5 * self.d5x5  # ここがEq2に相当する
 
             kernel_50c = depthwise_kernel_masked_outside * self.mask50c
             kernel_100c = depthwise_kernel_masked_outside * self.mask100c
@@ -168,9 +169,10 @@ class DepthwiseConv2DMasked(tf.keras.layers.DepthwiseConv2D):
                 self.d50c = 1.0
 
             self.depthwise_kernel_masked = \
-                self.d50c * (kernel_50c + self.d100c * kernel_100c)
+                self.d50c * (kernel_50c + self.d100c *
+                             kernel_100c)  # ここがEq3に相当する
 
-            # runtime term
+            # runtime term (Section 3.4 in paper)
             if self.runtimes is not None:
                 ratio = self.R3x3 / self.R5x5
                 runtime_channels = self.d50c * \
