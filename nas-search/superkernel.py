@@ -61,6 +61,7 @@ class DepthwiseConv2DMasked(tf.keras.layers.DepthwiseConv2D):
         else:
             self.custom = True
             if self.runtimes is not None:
+                # Runtimesをここでパースしている　順番がマッチする必要ある
                 self.R50c = K.cast_to_floatx(
                     self.runtimes[2])  # 50% of the 5x5
                 self.R100c = K.cast_to_floatx(
