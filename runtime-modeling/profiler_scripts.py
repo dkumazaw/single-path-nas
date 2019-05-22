@@ -8,8 +8,10 @@
 # ==============================================================================
 """Creating .json FAI-PEP profiler-compatible file."""
 
+#　このスクリプトでFAI-PEP用のJsonを生成する！
+
 def profiler_template(path):
- 
+  
   dirs = path.split('/')
   model_ = "mnasnet-backbone.tflite"
   name_ = dirs[-2]
