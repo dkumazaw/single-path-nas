@@ -38,7 +38,7 @@ def profiler_template(path):
         "metric": "delay", 
         "warmup": 1,
         "platform_args": {
-          "taskset": "8"
+          "taskset": "8"                     ############# ここ、タスクセットは消さないといけない！
         }
       }
     ]
