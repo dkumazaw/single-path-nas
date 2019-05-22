@@ -341,6 +341,7 @@ class SinglePathSuperNet(tf.keras.Model):
                                              self._global_params))
 
             # The first block needs to take care of stride and filter size increase.
+            # Runtimeのテーブルも見にくい気がするので、Dictionaryにするとかしたい。
             layer_runtimes = [self._runtime_lut[str(len(self._blocks))][str(i)]
                               for i in range(len(self._runtime_lut[str(len(self._blocks))].keys()))]
             self._blocks.append(MBConvBlock(block_args, self._global_params,
